@@ -16,6 +16,11 @@ public class ContasReceber {
     private Date dataconta;
     private BigDecimal valorconta;
 
+    @ManyToOne
+    @JoinColumn(name = "idcliente")
+    private Cliente cliente;
+
+
     public Integer getId() {
         return id;
     }

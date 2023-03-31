@@ -1,6 +1,8 @@
 package com.br.etec.nickolas.provacliente.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +13,10 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nomecliente;
+
+
+    @OneToMany(mappedBy = "cliente")
+    private List<ContasReceber> clientecontas = new ArrayList<>();
 
     public Integer getId() {
         return id;
