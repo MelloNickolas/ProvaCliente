@@ -11,4 +11,5 @@ public class ClienteFilter {
     public void setNomecliente(String nomecliente) {
         this.nomecliente = nomecliente;
     }
+
 }
