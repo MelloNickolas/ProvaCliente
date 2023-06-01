@@ -16,9 +16,6 @@ public class Cliente {
     private Integer id;
     private String nomecliente;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "cliente")
-    private List<ContasReceber> clientecontas = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -47,5 +44,17 @@ public class Cliente {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cliente")
+    private List<ContasReceber> clientecontas = new ArrayList<>();
+
+    public List<ContasReceber> getClientecontas() {
+        return clientecontas;
+    }
+
+    public void setClientecontas(List<ContasReceber> clientecontas) {
+        this.clientecontas = clientecontas;
     }
 }

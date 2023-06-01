@@ -2,6 +2,7 @@ package com.br.etec.nickolas.provacliente.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,12 +14,8 @@ public class ContasReceber {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Integer id;
-    private Date dataconta;
+    private LocalDate dataconta;
     private BigDecimal valorconta;
-
-    @ManyToOne
-    @JoinColumn(name = "idcliente")
-    private Cliente cliente;
 
 
     public Integer getId() {
@@ -29,11 +26,11 @@ public class ContasReceber {
         this.id = id;
     }
 
-    public Date getDataconta() {
+    public LocalDate getDataconta() {
         return dataconta;
     }
 
-    public void setDataconta(Date dataconta) {
+    public void setDataconta(LocalDate dataconta) {
         this.dataconta = dataconta;
     }
 
@@ -56,5 +53,18 @@ public class ContasReceber {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+
+    @ManyToOne
+    @JoinColumn(name = "idcliente")
+    private Cliente cliente;
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
