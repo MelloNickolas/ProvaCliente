@@ -1,5 +1,7 @@
 package com.br.etec.nickolas.provacliente.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ public class Cliente {
     private Integer id;
     private String nomecliente;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<ContasReceber> clientecontas = new ArrayList<>();
 
