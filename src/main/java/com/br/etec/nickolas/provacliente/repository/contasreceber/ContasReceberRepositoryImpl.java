@@ -65,10 +65,10 @@ public class ContasReceberRepositoryImpl implements ContasReceberRepositoryQuery
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if(root.get("valorconta") != null){
+        if(contasreceberfilter.getValorconta() != null){
             predicates.add(builder.equal(root.get("valorconta"), contasreceberfilter.getValorconta()));
         }
-        if(root.get("dataconta") != null){
+        if(contasreceberfilter.getDataconta() != null){
             predicates.add(builder.greaterThanOrEqualTo(root.get("dataconta"), contasreceberfilter.getDataconta()));
         }
 
