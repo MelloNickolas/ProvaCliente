@@ -11,6 +11,7 @@ public class ContasReceberFilter {
 
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private LocalDate dataconta;
+    private String nomecliente;
 
     public BigDecimal getValorconta() {
         return valorconta;
@@ -26,5 +27,13 @@ public class ContasReceberFilter {
 
     public void setDataconta(LocalDate dataconta) {
         this.dataconta = dataconta;
+    }
+
+    public String getNomecliente() {
+        return nomecliente;
+    }
+
+    public void setNomecliente(String nomecliente) {
+        this.nomecliente = nomecliente;
     }
 }
