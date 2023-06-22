@@ -2,6 +2,7 @@ package com.br.etec.nickolas.provacliente.controller;
 
 import com.br.etec.nickolas.provacliente.model.ContasReceber;
 import com.br.etec.nickolas.provacliente.repository.ContasReceberRepository;
+import com.br.etec.nickolas.provacliente.repository.Dtos.ContasReceberDto;
 import com.br.etec.nickolas.provacliente.repository.filter.ContasReceberFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ public class ContasReceberController {
     private ContasReceberRepository contasreceberrepository;
 
     @GetMapping()
-    public Page<ContasReceber> pesquisar(ContasReceberFilter contasreceberfilter, Pageable pageable){
+    public Page<ContasReceberDto> pesquisar(ContasReceberFilter contasreceberfilter, Pageable pageable){
         return contasreceberrepository.filtrar(contasreceberfilter, pageable);
     }
 
