@@ -1,7 +1,9 @@
 package com.br.etec.nickolas.provacliente.repository.contasreceber;
 
 import com.br.etec.nickolas.provacliente.model.ContasReceber;
+import com.br.etec.nickolas.provacliente.repository.Dtos.ContasReceberDto;
 import com.br.etec.nickolas.provacliente.repository.filter.ContasReceberFilter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,20 +24,27 @@ public class ContasReceberRepositoryImpl implements ContasReceberRepositoryQuery
     private EntityManager manager;
 
     @Override
-    public Page<ContasReceber> filtrar(ContasReceberFilter contasreceberfilter, Pageable pageable) {
+    public Page<ContasReceberDto> filtrar(ContasReceberFilter contasreceberfilter, Pageable pageable) {
 
         CriteriaBuilder builder = manager.getCriteriaBuilder();
-        CriteriaQuery<ContasReceber> criteria = builder.createQuery(ContasReceber.class);
+        CriteriaQuery<ContasReceberDto> criteria = builder.createQuery(ContasReceberDto.class);
         Root<ContasReceber> root = criteria.from(ContasReceber.class);
+
+        criteria.select(builder.construct(ContasReceberDto.class,
+                root.get("id"),
+                root.get("dataconta"),
+                root.get("valorconta"),
+                root.get("cliente").get("nomecliente")));
 
         Predicate[] predicates = criarrestricoes(contasreceberfilter, builder, root);
         criteria.where(predicates);
         criteria.orderBy(builder.asc(root.get("valorconta")));
 
-        TypedQuery<ContasReceber> query = manager.createQuery(criteria);
+        TypedQuery<ContasReceberDto> query = manager.createQuery(criteria);
         addrestricoespaginas(query, pageable);
 
-        return new PageImpl<>(query.getResultList(),pageable, total(contasreceberfilter));
+        return new PageImpl<>(query.getResultList(), pageable, total(contasreceberfilter));
+
     }
 
     private Long total(ContasReceberFilter contasreceberfilter){
@@ -52,7 +61,7 @@ public class ContasReceberRepositoryImpl implements ContasReceberRepositoryQuery
         return manager.createQuery(criteria).getSingleResult();
     }
 
-    private void addrestricoespaginas(TypedQuery<ContasReceber> query, Pageable pageable) {
+    private void addrestricoespaginas(TypedQuery<?> query, Pageable pageable) {
         int paginaAtual = pageable.getPageNumber();
         int totalRegistrosPorPagina = pageable.getPageSize();
         int primeiroRegistroPágina = paginaAtual * totalRegistrosPorPagina;
@@ -70,6 +79,11 @@ public class ContasReceberRepositoryImpl implements ContasReceberRepositoryQuery
         }
         if(contasreceberfilter.getDataconta() != null){
             predicates.add(builder.greaterThanOrEqualTo(root.get("dataconta"), contasreceberfilter.getDataconta()));
+        }
+
+        if (!StringUtils.isEmpty(contasreceberfilter.getNomecliente())){
+            predicates.add(builder.like(builder.lower(root.get("cliente").get("nomecliente")),
+                    "%" + contasreceberfilter.getNomecliente().toLowerCase() + "%"));
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
